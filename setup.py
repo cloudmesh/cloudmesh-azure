@@ -45,6 +45,9 @@ this_platform = platform.system().lower()
 
 requiers = """
 azure
+cloudmesh-common
+cloudmesh-cmd5
+cloudmesh-sys
 """.split("\n")
 
 
