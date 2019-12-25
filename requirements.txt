@@ -9,6 +9,3 @@ cloudmesh-configuration
 #    pip-compile setup.py
 #
 azure==4.0.0
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
