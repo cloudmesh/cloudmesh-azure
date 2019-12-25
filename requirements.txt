@@ -1,4 +1,1 @@
-cloudmesh-common
-cloudmesh-cmd5
-cloudmesh-sys
-azure
+# not yet
