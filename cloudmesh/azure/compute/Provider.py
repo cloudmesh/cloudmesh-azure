@@ -494,7 +494,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def detach_public_ip(self, node=None, ip=None):
         """
-        TBD
+        detaches public IP
 
         :param node:
         :param ip:
@@ -514,7 +514,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_az_pub_ip_from_nic_id(self, nic_id):
         """
-        TBD
+        gets azure public ip using NIC ID
 
         :param nic_id:
         :return:
@@ -529,7 +529,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_local_vm(self, vm_name, quiet=False):
         """
-        TBD
+        gets local vm from the db
 
         :param vm_name:
         :param quiet:
@@ -559,7 +559,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def ssh(self, vm=None, command=None):
         """
-        TBD
+        runs ssh
 
         :param vm:
         :param command:
@@ -654,7 +654,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def set_server_metadata(self, name=None, cm=None):
         """
-        TBD
+        sets server metadata
 
         :param name:
         :param cm:
@@ -684,7 +684,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def get_server_metadata(self, name):
         """
-        TBD
+        gets server metadata
 
         :param name:
         :return:
@@ -698,7 +698,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def delete_server_metadata(self, name, key=None):
         """
-        TBD
+        deletes server metadata
 
         :param name:
         :param key:
@@ -742,7 +742,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_az_sec_groups(self, name=None):
         """
-        TBD
+        gets azure sec groups
 
         :param name:
         :return:
@@ -761,7 +761,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_local_sec_groups(self, name=None):
         """
-        TBD
+        gets local sec groups from db
 
         :param name:
         :return:
@@ -782,7 +782,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_local_sec_rules(self, group_name=None):
         """
-        TBD
+        gets local sec rules from db
 
         :param group_name:
         :return:
@@ -822,7 +822,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _sec_rules_local_to_az(self, sec_rule_names):
         """
-        TBD
+        translate local rules to aure sec rules
 
         :param sec_rule_names:
         :return:
@@ -852,7 +852,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _add_local_sec_group(self, name, description):
         """
-        TBD
+        adds sec group locally to db
 
         :param name:
         :param description:
@@ -877,7 +877,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _add_az_sec_group(self, name):
         """
-        TBD
+        adds sec group to azure
 
         :param name:
         :return:
@@ -989,7 +989,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _check_local_rules_available(self, rules):
         """
-        TBD
+        checks if local rules available
 
         :param rules:
         :return:
@@ -1199,7 +1199,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_local_key_content(self, key_name):
         """
-        TBD
+        gets local key content from cb
 
         :param key_name:
         :return:
@@ -1276,7 +1276,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _create_az_sec_group_if_not_exists(self, sec_group_name):
         """
-        TBD
+        creates azure sec group if not exists (by name)
 
         :param sec_group_name:
         :return:
@@ -1290,7 +1290,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _create_az_vnet_if_not_exists(self):
         """
-        TBD
+        creates azure virtual network
 
         :return:
         """
@@ -1316,7 +1316,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _create_az_subnet_if_not_exitsts(self, secgroup):
         """
-        TBD
+        creates azure subnet
 
         :param secgroup:
         :return:
@@ -1821,7 +1821,8 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
              interval=None,
              timeout=None):
         """
-        TBD
+        waits for completion (all the methods are implemented synchronously! hence this just
+        lists vms)
 
         :param vm:
         :param interval:
