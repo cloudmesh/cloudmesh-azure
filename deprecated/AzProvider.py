@@ -1,5 +1,5 @@
 from azure.mgmt.resource import ResourceManagementClient
-from cloudmesh.management.configuration.config import Config
+from cloudmesh.configuration.Config import Config
 from cloudmesh.common.Shell import Shell
 from pprint import pprint
 import webbrowser
