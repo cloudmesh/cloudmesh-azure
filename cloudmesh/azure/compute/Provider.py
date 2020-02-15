@@ -43,6 +43,7 @@ def _get_az_vm_status(az_status):
         return None
 
 
+# noinspection PyPep8
 class Provider(ComputeNodeABC, ComputeProviderPlugin):
     """
     verbosity
@@ -125,72 +126,32 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         },
         "vm": {
             "sort_keys": ["cm.name"],
-            "order": ["cm.name",
-                      "cm.cloud",
-                      "id",
-                      "type",
-                      "location",
-                      "hardware_profile.vm_size",
-                      "storage_profile.image_reference.image_reference",
-                      "storage_profile.image_reference.offer",
-                      "storage_profile.image_reference.sku",
-                      "storage_profile.image_reference.version",
-                      "storage_profile.os_disk.os_type",
-                      "storage_profile.os_disk.name",
-                      "storage_profile.os_disk.caching",
-                      "storage_profile.os_disk.create_option",
-                      "storage_profile.os_disk.disk_size_gb",
-                      "storage_profile.os_disk.managed_disk.id",
-                      "storage_profile.os_disk.managed_disk.storage_account_type",
-                      "storage_profile.data_disks.lun",
-                      "storage_profile.data_disks.name",
-                      "storage_profile.data_disks.caching",
-                      "storage_profile.data_disks.create_option",
-                      "storage_profile.data_disks.disk_size_gb",
-                      "storage_profile.data_disks.managed_disk.id",
-                      "storage_profile.data_disks.managed_disk.storage_account_type",
-                      "os_profile.computer_name",
-                      "os_profile.admin_username",
-                      "os_profile.linux_configuration.disable_password_authentication",
-                      "os_profile.linux_configuration.provision_vm_agent",
-                      "os_profile.allow_extension_operations",
-                      "network_profile.network_interfaces.id",
-                      "provisioning_state",
-                      "vm_id",
-                      "cm.kind"],
-            "header": ["Name",
-                       "Cloud",
-                       "Id",
-                       "Type",
-                       "Location",
-                       "VM_Size",
-                       "Image Reference",
-                       "Image Offer",
-                       "Image Sku",
-                       "Image Version",
-                       "Image OS Type",
-                       "Image OS Disk Name",
-                       "Image OS Disk Caching",
-                       "Image OS Disk Create Option",
-                       "Image OS Disk Size",
-                       "Image OS Disk ID",
-                       "Image OS Disk Storage Type",
-                       "Image Data Disk Lun",
-                       "Image Data Disk Name",
-                       "Image Data Disk Caching",
-                       "Image Data Disk Create Option",
-                       "Image Data Disk Size",
-                       "Image Data Disk Id",
-                       "Image Data Disk Storage Type",
-                       "Image Os Profile Computer Name",
-                       "Image Os Profile Admin Username",
-                       "Image Linux Conf Disable Password",
-                       "Image Linux Conf Provision VM Agent",
-                       "Image Os Profile Allow Extension Operations",
-                       "Network Interfaces ID",
-                       "Provisioning State",
-                       "VM ID",
-                       "Kind"]
+            "order": [
+                "cm.name",
+                "cm.cloud",
+                "id",
+                "type",
+                "location",
+                "hardware_profile.vm_size",
+                "storage_profile.image_reference.offer",
+                "storage_profile.image_reference.sku",
+                "storage_profile.os_disk.disk_size_gb",
+                "provisioning_state",
+                "vm_id",
+                "cm.kind"],
+            "header": [
+                "Name",
+                "Cloud",
+                "Id",
+                "Type",
+                "Location",
+                "VM Size",
+                "OS Name",
+                "OS Version",
+                "OS Disk Size",
+                "Provisioning State",
+                "VM ID",
+                "Kind"]
         },
         "image": {
             "sort_keys": ["cm.name",
@@ -226,9 +187,9 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
                        "Memory",
                        "Max_Data_Disk"]},
         # "status": {},
-        "key": {},  # Moeen
-        "secgroup": {},  # Moeen
-        "secrule": {},  # Moeen
+        "key": {},  # Niranda, we need this for printing tables
+        "secgroup": {},  # Niranda, we need this for printing tables
+        "secrule": {},  # Niranda, we need this for printing tables
     }
 
     # noinspection PyPep8Naming
@@ -331,6 +292,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
             '*': '*'
         }
 
+    # noinspection PyPep8Naming
     def Print(self, data, output=None, kind=None):
         if output == "table":
             if kind == "secrule":
@@ -355,12 +317,6 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
                   )
         else:
             print(Printer.write(data, output=output))
-
-    # noinspection PyPep8Naming
-
-    #    def Print(self, output, kind, data):
-    # TODO: Moeen
-    #        raise NotImplementedError
 
     def keys(self):
         """
@@ -484,8 +440,8 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def find_available_public_ip(self):
         """
-        Azure currenly has no direct API to check if an IP is available or not!
-        hence create an IP everytime this method is called!
+        Azure currently has no direct API to check if an IP is available or not!
+        Hence create an IP everytime this method is called!
 
         :return:
         """
@@ -536,7 +492,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def detach_public_ip(self, node=None, ip=None):
         """
-        TBD
+        detaches public IP
 
         :param node:
         :param ip:
@@ -556,7 +512,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_az_pub_ip_from_nic_id(self, nic_id):
         """
-        TBD
+        gets azure public ip using NIC ID
 
         :param nic_id:
         :return:
@@ -571,7 +527,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_local_vm(self, vm_name, quiet=False):
         """
-        TBD
+        gets local vm from the db
 
         :param vm_name:
         :param quiet:
@@ -599,9 +555,10 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
         return vm_obj, pub_ip.as_dict()
 
+    # noinspection PyPep8
     def ssh(self, vm=None, command=None):
         """
-        TBD
+        runs ssh
 
         :param vm:
         :param command:
@@ -639,7 +596,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
                         self.success = self._disable(
                             ctypes.byref(self.old_value))
 
-                    def __exit__(self, type, value, traceback):
+                    def __exit__(self, type_, value, traceback):
                         if self.success:
                             self._revert(self.old_value)
 
@@ -658,7 +615,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
                         self.success = self._disable(
                             ctypes.byref(self.old_value))
 
-                    def __exit__(self, type, value, traceback):
+                    def __exit__(self, type_, value, traceback):
                         if self.success:
                             self._revert(self.old_value)
 
@@ -696,7 +653,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def set_server_metadata(self, name=None, cm=None):
         """
-        TBD
+        sets server metadata
 
         :param name:
         :param cm:
@@ -726,24 +683,30 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def get_server_metadata(self, name):
         """
-        TBD
+        gets server metadata
 
         :param name:
         :return:
         """
-        tags_dict = self.vms.get(self.GROUP_NAME, self.VM_NAME)
+        if name is None:
+            name = self.VM_NAME
+
+        tags_dict = self.vms.get(self.GROUP_NAME, name)
 
         return tags_dict.tags
 
-    def delete_server_metadata(self, name, key):
+    def delete_server_metadata(self, name, key=None):
         """
-        TBD
+        deletes server metadata
 
         :param name:
         :param key:
         :return:
         """
-        tags_dict = self.get_server_metadata(self)
+        if name is None:
+            name = self.VM_NAME
+
+        tags_dict = self.get_server_metadata(name)
 
         if key is not None:
             try:
@@ -751,7 +714,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
             except KeyError:
                 print("Key " + key + " not found")
 
-        async_vm_tag_updates = self.vms.update(self.GROUP_NAME, self.VM_NAME,
+        async_vm_tag_updates = self.vms.update(self.GROUP_NAME, name,
                                                {
                                                    'tags': tags_dict
                                                })
@@ -778,7 +741,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_az_sec_groups(self, name=None):
         """
-        TBD
+        gets azure sec groups
 
         :param name:
         :return:
@@ -797,7 +760,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_local_sec_groups(self, name=None):
         """
-        TBD
+        gets local sec groups from db
 
         :param name:
         :return:
@@ -818,7 +781,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _get_local_sec_rules(self, group_name=None):
         """
-        TBD
+        gets local sec rules from db
 
         :param group_name:
         :return:
@@ -858,7 +821,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _sec_rules_local_to_az(self, sec_rule_names):
         """
-        TBD
+        translate local rules to aure sec rules
 
         :param sec_rule_names:
         :return:
@@ -888,7 +851,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _add_local_sec_group(self, name, description):
         """
-        TBD
+        adds sec group locally to db
 
         :param name:
         :param description:
@@ -913,7 +876,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _add_az_sec_group(self, name):
         """
-        TBD
+        adds sec group to azure
 
         :param name:
         :return:
@@ -1025,7 +988,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _check_local_rules_available(self, rules):
         """
-        TBD
+        checks if local rules available
 
         :param rules:
         :return:
@@ -1225,11 +1188,17 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         _, pub_ip = self._get_pub_ip_for_vm(updated_dict)
         updated_dict['public_ip'] = pub_ip['ip_address']
 
+        updated_dict['key'] = key
+        updated_dict['secgroup'] = secgroup
+
+        local_group = self._get_local_sec_groups(secgroup)[0]
+        updated_dict['secrule'] = local_group['rules']
+
         return self.update_dict(updated_dict, kind='vm')[0]
 
     def _get_local_key_content(self, key_name):
         """
-        TBD
+        gets local key content from cb
 
         :param key_name:
         :return:
@@ -1306,7 +1275,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _create_az_sec_group_if_not_exists(self, sec_group_name):
         """
-        TBD
+        creates azure sec group if not exists (by name)
 
         :param sec_group_name:
         :return:
@@ -1320,7 +1289,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def _create_az_vnet_if_not_exists(self):
         """
-        TBD
+        creates azure virtual network
 
         :return:
         """
@@ -1344,9 +1313,9 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         Console.info("VNET created: " + res.name)
         return res
 
-    def _create_az_subnet_if_not_exitsts(self, secgroup):
+    def _create_az_subnet_if_not_exits(self, secgroup):
         """
-        TBD
+        creates azure subnet
 
         :param secgroup:
         :return:
@@ -1395,7 +1364,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
         # Create Subnet
         Console.info('Creating Subnet')
-        subnet = self._create_az_subnet_if_not_exitsts(secgroup)
+        subnet = self._create_az_subnet_if_not_exits(secgroup)
 
         # Create NIC
         Console.info('Creating NIC')
@@ -1506,7 +1475,8 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
     def suspend(self, group=None, name=None):
         # TODO: Joaquin -> Completed
         """
-        suspends the node with the given name since Azure does not handle suspend it uses stop
+        suspends the node with the given name since Azure does not handle
+        suspend it uses stop
 
         :param group: the unique Resource Group name
         :param name: the unique Virtual Machine name
@@ -1517,15 +1487,17 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         if name is None:
             name = self.VM_NAME
 
-        return self.power_off(group, name)
+        return self.vms.power_off(group, name).result()
 
     def info(self, group=None, name=None, status=None):
         """
         gets the information of a node with a given name
-        List VM in resource group
+        list VM in resource group
+
         :param group: the unique Resource Group name
         :param name: the unique Virtual Machine name
-        :return: The dict representing the node including updated status
+        :param status: TODO
+        :return: dict representing the node including updated status
         """
         if group is None:
             group = self.GROUP_NAME
@@ -1544,13 +1516,12 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
 
     def status(self, name=None):
         """
-        TBD
+        gets the status of a VM by name
 
         :param name:
         :return:
         """
-        r = self.cloudman.list_servers(filters={'name': name})[0]
-        return r['status']
+        return self.info(name=name)[0]['status']
 
     def list(self):
         """
@@ -1625,7 +1596,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         i = 0
 
         for publisher in result_list_pub:
-            if (i < 5):
+            if i < 5:
                 try:
                     result_list_offers = self.imgs.list_offers(
                         region,
@@ -1703,6 +1674,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         """
         return self.find(self.flavors(), name=name)
 
+    # noinspection PyMethodMayBeStatic
     def find(self, elements, name=None):
         """
         Finds an element in elements with the specified name.
@@ -1794,6 +1766,8 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
             })
 
             if kind == 'vm':
+                if 'created' not in entry["cm"].keys():
+                    entry["cm"]["created"] = str(datetime.utcnow())
                 entry["cm"]["updated"] = str(datetime.utcnow())
                 entry["cm"]["name"] = entry["name"]
                 entry["cm"]["type"] = entry[
@@ -1850,7 +1824,8 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
              interval=None,
              timeout=None):
         """
-        TBD
+        waits for completion (all the methods are implemented synchronously! hence this just
+        lists vms)
 
         :param vm:
         :param interval:
