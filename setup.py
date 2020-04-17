@@ -33,7 +33,10 @@ cloudmesh-cmd5
 cloudmesh-sys
 cloudmesh-inventory
 cloudmesh-cloud
-azure
+azure.common
+azure.mgmt.compute
+azure.mgmt.network
+azure.cli
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
