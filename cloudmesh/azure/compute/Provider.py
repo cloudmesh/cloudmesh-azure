@@ -20,8 +20,6 @@ from cloudmesh.mongo.CmDatabase import CmDatabase
 from cloudmesh.provider import ComputeProviderPlugin
 from msrestazure.azure_exceptions import CloudError
 
-CLOUDMESH_YAML_PATH = "~/.cloudmesh/cloudmesh.yaml"
-
 
 def _remove_mongo_id_obj(dict_list):
     for i in dict_list:
@@ -193,7 +191,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
     }
 
     # noinspection PyPep8Naming
-    def __init__(self, name="azure", configuration=None, credentials=None):
+    def __init__(self, name="azure", credentials=None):
         """
         Initializes the provider. The default parameters are read from the
         configuration file that is defined in yaml format.
@@ -201,10 +199,8 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         :param name: The name of the provider as defined in the yaml file
         :param configuration: The location of the yaml configuration file
         """
-        configuration = configuration if configuration is not None \
-            else CLOUDMESH_YAML_PATH
 
-        conf = Config(configuration)["cloudmesh"]
+        conf = Config()["cloudmesh"]
 
         self.user = Config()["cloudmesh"]["profile"]["user"]
 
@@ -214,7 +210,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         cred = self.spec["credentials"]
         self.default = self.spec["default"]
         self.cloudtype = self.spec["cm"]["kind"]
-        super().__init__(name, configuration)
+        super().__init__(name)
 
         # update credentials with the passed dict
         if credentials is not None:
