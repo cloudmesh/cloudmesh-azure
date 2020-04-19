@@ -254,7 +254,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         self.imgs = self.compute_client.virtual_machine_images
 
         # Azure Resource Group
-        self.GROUP_NAME = self.default["resource_group"]
+        self.GROUP_NAME = self.default["group"]
 
         # Azure Datacenter Region
         self.LOCATION = cred["AZURE_REGION"]
@@ -647,7 +647,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
             Console.info('Azure Resource Group created: ' + res.name)
             return res
 
-    def set_server_metadata(self, name=None, cm=None):
+    def set_server_metadata(self, name=None, cm=None, **metadata):
         """
         sets server metadata
 
