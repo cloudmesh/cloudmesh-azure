@@ -11,7 +11,3 @@ cloudmesh-configuration
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
-azure.common
-azure.mgmt.compute
-azure.mgmt.network
-azure.cli
