@@ -1094,7 +1094,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         :return:
 
         """
-        if group is None:
+        if group is None or group == "default":
             group = self.GROUP_NAME
 
         if name is None:
