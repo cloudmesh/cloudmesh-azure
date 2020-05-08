@@ -647,12 +647,12 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
             Console.info('Azure Resource Group created: ' + res.name)
             return res
 
-    def set_server_metadata(self, name=None, cm=None, **metadata):
+    def set_server_metadata(self, name, **metadata):
         """
         sets server metadata
 
         :param name:
-        :param cm:
+        :param metadata:
         :return:
         """
         # see https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-using-tags
@@ -660,8 +660,12 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         # tags = FlatDict(cm)
 
         data = {}
-        if cm is not None:
-            data = {'cm': str(cm)}
+        if metadata is not None and isinstance(metadata, dict) and 'cm' in metadata:
+            if isinstance(metadata['cm'], str):
+                import ast
+                data.update(ast.literal_eval(metadata['cm']))
+            else:
+                data.update(metadata['cm'])
 
         if name is None:
             name = self.VM_NAME
