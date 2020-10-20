@@ -8,7 +8,6 @@ cloudmesh-configuration
 #
 #    pip-compile setup.py
 #
-azure.common
-azure.cli
-azure.mgmt.compute
-azure.mgmt.network
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
