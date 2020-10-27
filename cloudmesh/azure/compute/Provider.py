@@ -656,7 +656,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         :return:
         """
         # see https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-using-tags
-        # https://github.com/Azure-Samples/virtual-machines-python-manage/blob/master/example.py
+        # https://github.com/Azure-Samples/virtual-machines-python-manage/blob/main/example.py
         # tags = FlatDict(cm)
 
         data = {}
