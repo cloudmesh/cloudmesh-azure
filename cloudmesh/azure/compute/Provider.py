@@ -19,6 +19,7 @@ from cloudmesh.configuration.Config import Config
 from cloudmesh.mongo.CmDatabase import CmDatabase
 from cloudmesh.provider import ComputeProviderPlugin
 from msrestazure.azure_exceptions import CloudError
+from azure.identity import ClientSecretCredential
 
 
 def _remove_mongo_id_obj(dict_list):
@@ -233,10 +234,10 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         # AZURE_TENANT_ID = '<Directory ID from Azure Active Directory
         # section>'
 
-        credentials = ServicePrincipalCredentials(
+        credentials = ClientSecretCredential(
+            client_secret=cred['AZURE_SECRET_KEY'],
             client_id=cred['AZURE_APPLICATION_ID'],
-            secret=cred['AZURE_SECRET_KEY'],
-            tenant=cred['AZURE_TENANT_ID']
+            tenant_id=cred['AZURE_TENANT_ID']
         )
 
         subscription = cred['AZURE_SUBSCRIPTION_ID']
@@ -427,7 +428,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         }
 
         creation_result = self.network_client.public_ip_addresses. \
-            create_or_update(self.GROUP_NAME,
+            begin_create_or_update(self.GROUP_NAME,
                              f"{self.PUBLIC_IP__NAME}_{current_pub_count}",
                              public_ip_params,
                              ).result()
@@ -642,7 +643,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         else:
             # Create or Update Resource groupCreating new public IP
             Console.info('Creating Azure Resource Group')
-            res = groups.create_or_update(self.GROUP_NAME,
+            res = groups.begin_create_or_update(self.GROUP_NAME,
                                           {'location': self.LOCATION})
             Console.info('Azure Resource Group created: ' + res.name)
             return res
@@ -670,7 +671,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         if name is None:
             name = self.VM_NAME
 
-        async_vm_key_updates = self.vms.create_or_update(
+        async_vm_key_updates = self.vms.begin_create_or_update(
             self.GROUP_NAME,
             name,
             {
@@ -886,7 +887,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         }
 
         result_add_security_group = self.network_client. \
-            network_security_groups.create_or_update(self.GROUP_NAME, name,
+            network_security_groups.begin_create_or_update(self.GROUP_NAME, name,
                                                      parameters)
 
         return result_add_security_group.result()
@@ -975,7 +976,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         # push az rules
         results = []
         for az_rule in az_rules:
-            ret = self.network_client.security_rules.create_or_update(
+            ret = self.network_client.security_rules.begin_create_or_update(
                 self.GROUP_NAME,
                 local_group['name'],
                 az_rule.name,
@@ -1134,7 +1135,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         Console.msg(f"    Group:    {group}")
         Console.msg("")
 
-        vm = self.vms.create_or_update(
+        vm = self.vms.begin_create_or_update(
             group,
             name,
             vm_parameters).result()
@@ -1146,7 +1147,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         #     list(self.compute_client.disks.list_by_resource_group(group)))
         #
         # # Creating a Managed Data Disk
-        # async_disk_creation = self.compute_client.disks.create_or_update(
+        # async_disk_creation = self.compute_client.disks.begin_create_or_update(
         #     group,
         #     f"{self.OS_DISK_NAME}_{disks_count}",
         #     {
@@ -1174,7 +1175,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         #         'id': data_disk.id
         #     }
         # })
-        # updated_vm = self.vms.create_or_update(
+        # updated_vm = self.vms.begin_create_or_update(
         #     group,
         #     name,
         #     virtual_machine
@@ -1299,7 +1300,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
                 return vnet
 
         async_vnet_creation = \
-            self.network_client.virtual_networks.create_or_update(
+            self.network_client.virtual_networks.begin_create_or_update(
                 self.GROUP_NAME,
                 self.VNET_NAME,
                 {
@@ -1333,7 +1334,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
             }
         }
 
-        async_subnet_creation = self.network_client.subnets.create_or_update(
+        async_subnet_creation = self.network_client.subnets.begin_create_or_update(
             self.GROUP_NAME,
             self.VNET_NAME,
             self.SUBNET_NAME,
@@ -1389,7 +1390,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
             }
         }
 
-        nic = self.network_client.network_interfaces.create_or_update(
+        nic = self.network_client.network_interfaces.begin_create_or_update(
             self.GROUP_NAME,
             f"{self.NIC_NAME}_{nic_count}",
             parameters=nic_params,
