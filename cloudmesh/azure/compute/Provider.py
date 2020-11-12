@@ -1116,11 +1116,11 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
         if key is None:
             key = self.user
 
-        if flavor is None:
-            flavor = 'Standard_B1s'
+        if size is None:
+            size = 'Standard_B1s'
 
         vm_parameters = self._create_vm_parameters(name, secgroup, pub_ip, key,
-                                                   flavor)
+                                                   size)
         banner("Creating Server")
         Console.msg(f"    Name:     {name}")
         Console.msg(f"    User:     {user}")
