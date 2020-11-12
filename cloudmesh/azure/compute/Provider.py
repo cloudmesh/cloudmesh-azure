@@ -633,7 +633,7 @@ class Provider(ComputeNodeABC, ComputeProviderPlugin):
                 error = ssh.stderr.readlines()
                 Console.error(error)
             else:
-                Console.info("cmd result: " + result)
+                #Console.info("cmd result: " + result) #this causes result to be printed twice
                 return result
 
     def _get_resource_group(self):
