@@ -36,7 +36,11 @@ azure.common
 azure.cli
 azure.mgmt.compute
 azure.mgmt.network
+azure-identity
+azure-mgmt-resource
 """.split("\n")
+
+#    pip install --no-cache-dir --upgrade azure-mgmt-resource
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
